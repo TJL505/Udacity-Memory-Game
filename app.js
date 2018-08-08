@@ -51,15 +51,22 @@ shuffle(cardOrder);
 startGame();
 //time
 
-var interval;
+
 function timer() {
   var counter = document.querySelector('.clock');
-  counter.innerHTML = id;
   var secs = 0;
-      var id = setInterval(function(){
+  var minutes = Math.floor(secs / 60);
+  var seconds = Math.floor(secs % 60)
+      setInterval(function(){
           secs++;
           console.log(secs);
-      }, 1000);
+      },
+      1000);
+      if (seconds <   10) {
+        counter.innerHTML = `${minutes}:0${seconds}`;
+      } else {
+        counter.innerHTML = `${minutes}:${seconds}`;
+      };
 }
 
 function showTime() {
@@ -67,11 +74,7 @@ function showTime() {
   watch.innterHTML = secs;
   var minutes = Math.floor(secs / 60);
   var seconds = Math.floor(secs % 60);
-  if (seconds <   10) {
-    clock.innerHTML = `${minutes}:0${seconds}`;
-  } else {
-    clock.innerHTML = `${minutes}:${seconds}`;
-  }
+
 
 }
 function stopTimer () {
