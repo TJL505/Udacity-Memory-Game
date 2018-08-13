@@ -11,6 +11,8 @@
  let starCount = 0;
  let pop = document.querySelector('.myPopup');
  let popText = document.querySelector('.popuptext');
+ var secs = 0;
+ var minutes = 0;
 
 /*
  * Display the cards on the page
@@ -54,31 +56,38 @@ startGame();
 
 function timer() {
   var counter = document.querySelector('.clock');
-  var secs = 0;
-  var minutes = Math.floor(secs / 60);
-  var seconds = Math.floor(secs % 60)
+
+  function time() {
+    if (secs = 60) {
+      minutes++
+      secs = 0;
+      secs++
+    } ;
+  };
       setInterval(function(){
           secs++;
+          if (secs <  10  ) {
+            counter.innerHTML = `${minutes}:0${secs}`;
+          } else if (secs > 59){
+            minutes++
+            secs = 0
+            counter.innerHTML = `${minutes}:${secs}`;
+          } else {
+            counter.innerHTML = `${minutes}:${secs}`
+          }
+          ;
           console.log(secs);
       },
       1000);
-      if (seconds <   10) {
-        counter.innerHTML = `${minutes}:0${seconds}`;
-      } else {
-        counter.innerHTML = `${minutes}:${seconds}`;
-      };
 }
 
 function showTime() {
   var watch = document.querySelector(".clock")
   watch.innterHTML = secs;
-  var minutes = Math.floor(secs / 60);
-  var seconds = Math.floor(secs % 60);
-
-
 }
+
 function stopTimer () {
-  clearInterval(id);
+  clearInterval(timer);
 }
 
 //restart function
@@ -93,6 +102,8 @@ restartButton.addEventListener('click', function() {
   openCards = [];
   matchedCards = [];
   makeCards();
+  secs = 0;
+  minutes = 0;
 }
 );
 
@@ -169,21 +180,20 @@ function clearPop() {
   })
 });
 };
-
+//creates the pop-up when you win the game
 function youWin() {
-
   pop.style.visibility = 'visible';
   popText.style.visibility = 'visible';
   var finalMoves = document.querySelector('.fMoves');
   finalMoves.innerHTML = "Moves: " + moves + " Moves";
-  var finalStar = document.querySelector('fstars');
-  getStars();
-  finalStar.innerHTML = starCount;
+  var finalTime = document.querySelector('.ftime');
+  finalTime.innerHTML = "Time: " + `${minutes}:${secs}`;
+  var finalStar = document.querySelector('.fstars');
+  finalStar.innerHTML = "Stars: " + starCount;
 };
 
-function getStars () {
-  var starTrack = document.querySelectorAll('.stars li');
-  let starCount = 0;
+function showStars () {
+  var showS = document.querySelectorAll('fa fa-star');
   for (starX of starTrack) {
     if (starX.style.visibility !== 'hidden') {
       starCount++;
