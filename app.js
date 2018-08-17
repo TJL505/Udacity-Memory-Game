@@ -13,6 +13,8 @@
  let popText = document.querySelector('.popuptext');
  var secs = 0;
  var minutes = 0;
+ var addStar = document.querySelector('.fa fa-star');
+
 
 /*
  * Display the cards on the page
@@ -51,9 +53,8 @@ shuffle(cardOrder);
 
 //starts the game when the window opens
 startGame();
-//time
 
-
+//time function
 function timer() {
   var counter = document.querySelector('.clock');
 
@@ -81,17 +82,18 @@ function timer() {
       1000);
 }
 
+//shows the timer at the top of the screen
 function showTime() {
   var watch = document.querySelector(".clock")
   watch.innterHTML = secs;
 }
 
+//stops the timer from running
 function stopTimer () {
   clearInterval(timer);
 }
 
 //restart function
-
 var restartButton = document.querySelector('.restart');
 restartButton.addEventListener('click', function() {
   clearCards();
@@ -101,9 +103,11 @@ restartButton.addEventListener('click', function() {
   starCount = 0;
   openCards = [];
   matchedCards = [];
+  showStars();
   makeCards();
   secs = 0;
   minutes = 0;
+
 }
 );
 
@@ -118,6 +122,7 @@ endStartNew.addEventListener('click', function() {
   starCount = 0;
   openCards = [];
   matchedCards = [];
+  showStars();
   makeCards();
 }
 );
@@ -188,19 +193,42 @@ function youWin() {
   finalMoves.innerHTML = "Moves: " + moves + " Moves";
   var finalTime = document.querySelector('.ftime');
   finalTime.innerHTML = "Time: " + `${minutes}:${secs}`;
-  var finalStar = document.querySelector('.fstars');
-  finalStar.innerHTML = "Stars: " + starCount;
+  endStars();
 };
 
+//show number of stars at the end of the game
+function endStars(){
+  var end = 0
+  if (moves < 10) {
+    end = 3
+  } else if (moves < 15)
+  { end = 2
+  } else if (moves < 20){
+    end = 1
+  } else {
+    end = 0
+  }
+    var finalStar = document.querySelector('.fstars');
+  for (let i=0; i < end; i++){
+    var newS = document.createElement("ul")
+    finalStar.append(newS);
+    var newI = document.createElement("i")
+    newS.appendChild(newI);
+    newI.classList.add("fa");
+    newI.classList.add("fa-star")
+  }
+}
+
+  //    $(".fstars").append(`<li><i class="fa fa-star"></i></li>`);
+
+//Resets the stars shown when the game is won
 function showStars () {
-  var showS = document.querySelectorAll('fa fa-star');
-  for (starX of starTrack) {
-    if (starX.style.visibility !== 'hidden') {
-      starCount++;
+  var showS = document.querySelectorAll('.stars li');
+  for (star of showS) {
+    if (star.style.visibility !== 'visible') {
+      star.style.visibility = 'visible';
     };
   };
-  return starCount;
-  console.log(starCount);
 };
 
 //Adds and increments the number of moves
